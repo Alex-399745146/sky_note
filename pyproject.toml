@@ -1,0 +1,18 @@
+[project]
+name = "sky-note"
+version = "0.1.0"
+description = "Веб-приложение для ведения личного дневника."
+authors = [
+    {name = "Alexsandr Bachevskiy",email = "bachevskiiaa@gmail.com"}
+]
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "django (>=5.2,<5.3)",
+    "psycopg[binary] (>=3.3.4,<4.0.0)",
+    "python-dotenv (>=1.2.3,<2.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
