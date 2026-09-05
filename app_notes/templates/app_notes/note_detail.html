@@ -1,16 +1,34 @@
-<h1>{{ note.title }}</h1>
+{% extends "base.html" %}
 
-<p><strong>Дата создания:</strong> {{ note.created_at|date:"d.m.Y H:i" }}</p>
-<p><strong>Последнее изменение:</strong> {{ note.updated_at|date:"d.m.Y H:i" }}</p>
+{% block title %}{{ note.title }} — Sky Note{% endblock %}
 
-<hr>
+{% block content %}
+    <h1 class="mb-3">{{ note.title }}</h1>
 
-<div>{{ note.content|linebreaks }}</div>
+    <p class="text-muted">
+        <strong>Дата создания:</strong> {{ note.created_at|date:"d.m.Y H:i" }}<br>
+        <strong>Последнее изменение:</strong> {{ note.updated_at|date:"d.m.Y H:i" }}
+    </p>
 
-<hr>
+    <hr class="my-4">
 
-<p>
-    <a href="{% url 'app_notes:note_update' note.pk %}">Редактировать</a> |
-    <a href="{% url 'app_notes:note_delete' note.pk %}">Удалить</a> |
-    <a href="{% url 'app_notes:note_list' %}">Назад к списку</a>
-</p>
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text" style="white-space: pre-wrap;">{{ note.content }}</p>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="d-flex gap-2">
+        <a class="btn btn-warning" href="{% url 'app_notes:note_update' note.pk %}">
+            Редактировать
+        </a>
+        <a class="btn btn-danger" href="{% url 'app_notes:note_delete' note.pk %}">
+            Удалить
+        </a>
+        <a class="btn btn-secondary" href="{% url 'app_notes:note_list' %}">
+            Назад к списку
+        </a>
+    </div>
+{% endblock %}

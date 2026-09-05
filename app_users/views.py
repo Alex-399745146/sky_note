@@ -5,6 +5,8 @@ from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 from app_users.forms import RegisterForm
 
@@ -32,3 +34,9 @@ def register(request):
         "app_users/register.html",
         {"form": form},
     )
+
+
+def user_logout(request):
+    """Представление выхода пользователя."""
+    logout(request)
+    return redirect("app_users:login")

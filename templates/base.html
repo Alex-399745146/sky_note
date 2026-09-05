@@ -8,22 +8,30 @@
         {% block title %}Sky Note{% endblock %}
     </title>
 
+    <!-- Bootstrap 5.3 CSS CDN -->
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
+
+    <!-- Твои дополнительные стили -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body class="bg-light">
+
+    <!-- Навигация -->
     {% include "includes/navbar.html" %}
 
+    <!-- Основной контент -->
     <main class="container py-4">
+        <!-- Django messages -->
         {% include "includes/messages.html" %}
 
         {% block content %}
         {% endblock %}
     </main>
 
+    <!-- Bootstrap 5.3 JS CDN -->
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     ></script>

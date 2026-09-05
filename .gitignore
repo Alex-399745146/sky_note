@@ -24,3 +24,4 @@ media/
 .DS_Store
 Thumbs.db
 /app_notes/inf_urls
+/app_users/inf_urls

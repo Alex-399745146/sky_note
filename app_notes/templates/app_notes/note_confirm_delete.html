@@ -1,10 +1,19 @@
-<h1>Удалить запись?</h1>
+{% extends "base.html" %}
 
-<p>Вы действительно хотите удалить запись «{{ note.title }}»?</p>
+{% block title %}Удалить запись — Sky Note{% endblock %}
 
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Да, удалить</button>
-</form>
+{% block content %}
+    <h1 class="mb-4">Удалить запись?</h1>
 
-<p><a href="{% url 'app_notes:note_detail' note.pk %}">Отмена</a></p>
+    <div class="alert alert-warning">
+        Вы действительно хотите удалить запись «<strong>{{ note.title }}</strong>»?
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Да, удалить</button>
+        <a class="btn btn-secondary" href="{% url 'app_notes:note_detail' note.pk %}">
+            Отмена
+        </a>
+    </form>
+{% endblock %}

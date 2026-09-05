@@ -1,20 +1,42 @@
-<h1>Результаты поиска</h1>
+{% extends "base.html" %}
 
-{% if query %}
-    <p>Запрос: <strong>{{ query }}</strong></p>
-{% endif %}
+{% block title %}Поиск — Sky Note{% endblock %}
 
-{% if notes %}
-    <ul>
-        {% for note in notes %}
-            <li>
-                <a href="{% url 'app_notes:note_detail' note.pk %}">{{ note.title }}</a>
-                ({{ note.created_at|date:"d.m.Y H:i" }})
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Ничего не найдено.</p>
-{% endif %}
+{% block content %}
+    <h1 class="mb-4">Результаты поиска</h1>
 
-<p><a href="{% url 'app_notes:note_list' %}">Назад к списку</a></p>
+    {% if query %}
+        <p class="mb-3">Запрос: <strong>{{ query }}</strong></p>
+    {% endif %}
+
+    {% if notes %}
+        <div class="row">
+            {% for note in notes %}
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'app_notes:note_detail' note.pk %}">
+                                    {{ note.title }}
+                                </a>
+                            </h5>
+                            <p class="card-text text-muted">
+                                {{ note.created_at|date:"d.m.Y H:i" }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            Ничего не найдено.
+        </div>
+    {% endif %}
+
+    <p>
+        <a class="btn btn-secondary" href="{% url 'app_notes:note_list' %}">
+            Назад к списку
+        </a>
+    </p>
+{% endblock %}
