@@ -114,10 +114,7 @@ class NoteSearchView(LoginRequiredMixin, ListView):
         queryset = Note.objects.filter(owner=self.request.user)
 
         if query:
-            queryset = queryset.filter(
-                Q(title__icontains=query)
-                | Q(content__icontains=query)
-            )
+            queryset = queryset.filter(Q(title__icontains=query) | Q(content__icontains=query))
 
         return queryset
 

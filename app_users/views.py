@@ -1,12 +1,10 @@
 # app_users/views.py
 
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
-from django.contrib.auth import logout
-from django.shortcuts import redirect
 
 from app_users.forms import RegisterForm
 

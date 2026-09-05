@@ -8,16 +8,16 @@ class Note(models.Model):
 
     title = models.CharField(
         max_length=200,
-        verbose_name='Заглавие',
+        verbose_name="Заглавие",
     )
     content = models.TextField(
-        verbose_name='Фабула',
+        verbose_name="Фабула",
     )
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='notes',
-        verbose_name='Владелец',
+        related_name="notes",
+        verbose_name="Владелец",
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
