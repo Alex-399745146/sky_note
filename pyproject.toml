@@ -12,6 +12,9 @@ dependencies = [
     "python-dotenv (>=1.2.3,<2.0.0)"
 ]
 
+# Poetry используется только для управления виртуальным окружением и зависимостями.
+[tool.poetry]
+package-mode = false
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
