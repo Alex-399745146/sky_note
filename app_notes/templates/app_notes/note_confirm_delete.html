@@ -1,0 +1,10 @@
+<h1>Удалить запись?</h1>
+
+<p>Вы действительно хотите удалить запись «{{ note.title }}»?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Да, удалить</button>
+</form>
+
+<p><a href="{% url 'app_notes:note_detail' note.pk %}">Отмена</a></p>

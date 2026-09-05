@@ -1,0 +1,18 @@
+<h1>Мои записи</h1>
+
+<p><a href="{% url 'app_notes:note_create' %}">Создать новую запись</a></p>
+
+{% if notes %}
+    <ul>
+        {% for note in notes %}
+            <li>
+                <a href="{% url 'app_notes:note_detail' note.pk %}">{{ note.title }}</a>
+                ({{ note.created_at|date:"d.m.Y H:i" }})
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>У тебя пока нет записей в дневнике.</p>
+{% endif %}
+
+<p><a href="{% url 'app_users:login' %}">Войти</a> | <a href="{% url 'app_users:register' %}">Зарегистрироваться</a></p>

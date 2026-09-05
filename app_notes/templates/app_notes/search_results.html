@@ -1,0 +1,20 @@
+<h1>Результаты поиска</h1>
+
+{% if query %}
+    <p>Запрос: <strong>{{ query }}</strong></p>
+{% endif %}
+
+{% if notes %}
+    <ul>
+        {% for note in notes %}
+            <li>
+                <a href="{% url 'app_notes:note_detail' note.pk %}">{{ note.title }}</a>
+                ({{ note.created_at|date:"d.m.Y H:i" }})
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Ничего не найдено.</p>
+{% endif %}
+
+<p><a href="{% url 'app_notes:note_list' %}">Назад к списку</a></p>

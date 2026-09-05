@@ -1,0 +1,16 @@
+<h1>{{ note.title }}</h1>
+
+<p><strong>Дата создания:</strong> {{ note.created_at|date:"d.m.Y H:i" }}</p>
+<p><strong>Последнее изменение:</strong> {{ note.updated_at|date:"d.m.Y H:i" }}</p>
+
+<hr>
+
+<div>{{ note.content|linebreaks }}</div>
+
+<hr>
+
+<p>
+    <a href="{% url 'app_notes:note_update' note.pk %}">Редактировать</a> |
+    <a href="{% url 'app_notes:note_delete' note.pk %}">Удалить</a> |
+    <a href="{% url 'app_notes:note_list' %}">Назад к списку</a>
+</p>
