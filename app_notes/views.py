@@ -1,3 +1,6 @@
+# app_notes/views.py
+
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
@@ -47,6 +50,13 @@ class NoteCreateView(LoginRequiredMixin, CreateView):
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        # Сообщение добавляем только после успешного создания
+        if self.object:
+            messages.success(request, "Запись успешно создана.")
+        return response
+
     def get_success_url(self):
         return reverse_lazy("app_notes:note_list")
 
@@ -62,6 +72,12 @@ class NoteUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         note = self.get_object()
         return note.owner == self.request.user
 
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        if hasattr(self, "object") and self.object:
+            messages.success(request, "Запись успешно обновлена.")
+        return response
+
     def get_success_url(self):
         return reverse_lazy("app_notes:note_detail", kwargs={"pk": self.object.pk})
 
@@ -76,6 +92,10 @@ class NoteDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         note = self.get_object()
         return note.owner == self.request.user
+
+    def post(self, request, *args, **kwargs):
+        messages.success(request, "Запись успешно удалена.")
+        return super().post(request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse_lazy("app_notes:note_list")
