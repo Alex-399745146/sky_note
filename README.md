@@ -91,7 +91,7 @@ sky_note/
    POSTGRES_PORT=5432
    ```
 
-6. Применить миграции:
+6. Применить миграции БД:
 
    ```bash
    poetry run python manage.py migrate
