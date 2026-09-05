@@ -1,0 +1,35 @@
+/* Слегка жёлтый фон сайта */
+body {
+    background-color: #fffbeb !important;
+}
+
+/* Оранжевый подвал */
+.bg-orange {
+    background-color: #fd7e14 !important;
+}
+
+
+/* Ярко-оранжевая кнопка */
+.btn-orange {
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+    color: #fff !important;
+}
+
+.btn-orange:hover,
+.btn-orange:focus,
+.btn-orange:active {
+    background-color: #e36209 !important;
+    border-color: #e36209 !important;
+    color: #fff !important;
+}
+
+/* Оранжевая рамка для карточек заметок */
+.border-note {
+    border: 2px solid #fd7e14 !important;
+}
+
+.border-note:hover {
+    border-color: #e36209 !important;
+    box-shadow: 0 0.5rem 1rem rgba(253, 126, 20, 0.15);
+}

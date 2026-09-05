@@ -1,59 +1,60 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+<nav class="navbar navbar-expand-lg navbar-dark bg-orange">
     <div class="container">
         <a class="navbar-brand" href="{% url 'app_notes:note_list' %}">Sky Note</a>
-
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'app_notes:note_list' %}">Мои записи</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'app_notes:note_create' %}">Создать запись</a>
-                    </li>
-                    <li class="nav-item">
-                        <form class="d-flex" action="{% url 'app_notes:note_search' %}" method="get">
-                            <input
-                                class="form-control me-2"
-                                type="search"
-                                name="q"
-                                placeholder="Поиск..."
-                                aria-label="Search"
-                                value="{{ request.GET.q|default:'' }}"
-                            >
-                            <button class="btn btn-outline-light" type="submit">Найти</button>
-                        </form>
-                    </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'app_notes:note_list' %}">Заметки</a>
+                </li>
+
+                {% if debug %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin:index' %}">Админка</a>
+                  </li>
                 {% endif %}
+
             </ul>
+
+            <!-- Форма поиска -->
+            <form method="get" action="{% url 'app_notes:note_list' %}" class="d-flex me-3">
+                <input
+                    type="text"
+                    name="q"
+                    class="form-control form-control-sm me-2"
+                    placeholder="Поиск..."
+                    value="{{ request.GET.q }}"
+                >
+                <button type="submit" class="btn btn-sm btn-outline-light">
+                    🔍
+                </button>
+            </form>
 
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <span class="nav-link text-light">Привет, {{ user.username }}!</span>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'app_users:logout' %}">Выйти</a>
-                    </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        Привет, {{ user.email }}!
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <form method="post" action="{% url 'app_users:logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item">Выйти</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
                 {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'app_users:login' %}">Войти</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'app_users:register' %}">Регистрация</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'app_users:login' %}">Войти</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'app_users:register' %}">Регистрация</a>
+                </li>
                 {% endif %}
             </ul>
         </div>

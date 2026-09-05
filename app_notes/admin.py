@@ -6,7 +6,7 @@ from app_notes.models import Note
 
 @admin.register(Note)
 class NoteAdmin(admin.ModelAdmin):
-    """Настройка отображения записей дневника в административной панели."""
+    """Настройка отображения в административной панели."""
 
     list_display = (
         "id",
@@ -28,3 +28,4 @@ class NoteAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
+    ordering = ("-created_at",)

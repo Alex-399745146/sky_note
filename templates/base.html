@@ -1,39 +1,35 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-bs-theme="auto">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        {% block title %}Sky Note{% endblock %}
-    </title>
-
-    <!-- Bootstrap 5.3 CSS CDN -->
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
-
-    <!-- Твои дополнительные стили -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Веб-приложение для ведения личного дневника">
+    <meta name="author" content="Alex Bachevskiy">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <title>{% block title %}Sky Note{% endblock %}</title>
+    {% include "includes/style_css.html" %}
 </head>
-<body class="bg-light">
-
+<!-- Липкий подвал через flexbox: страница на всю высоту окна, контент тянется, футер прижимается вниз -->
+<body class="d-flex flex-column min-vh-100">
     <!-- Навигация -->
     {% include "includes/navbar.html" %}
 
     <!-- Основной контент -->
-    <main class="container py-4">
-        <!-- Django messages -->
-        {% include "includes/messages.html" %}
+    <main class="flex-grow-1">
+        <div class="container py-4">
+            <!-- Django messages -->
+            {% include "includes/messages.html" %}
 
-        {% block content %}
-        {% endblock %}
+            {% block content %}
+            {% endblock %}
+        </div>
     </main>
 
-    <!-- Bootstrap 5.3 JS CDN -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    ></script>
+    <!-- Подвал -->
+    {% include "includes/footer.html" %}
+
+    <!-- JS -->
+    {% include "includes/style_js.html" %}
 </body>
 </html>

@@ -1,30 +1,43 @@
 # app_notes/views.py
 
-from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.db.models import Q
-from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    DetailView,
-    ListView,
-    UpdateView,
-)
+from typing import Any
 
-from app_notes.models import Note
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db import models
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.decorators.http import require_http_methods
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+
+from .forms import NoteForm
+from .models import Note
 
 
 class NoteListView(LoginRequiredMixin, ListView):
-    """Список личных записей пользователя."""
+    """Список заметок пользователя."""
 
     model = Note
     template_name = "app_notes/note_list.html"
     context_object_name = "notes"
 
     def get_queryset(self):
-        return Note.objects.filter(owner=self.request.user)
+        queryset = Note.objects.filter(owner=self.request.user).order_by("-created_at")
+
+        search_query = self.request.GET.get("q", "")
+        if search_query:
+            queryset = queryset.filter(
+                models.Q(title__icontains=search_query) | models.Q(content__icontains=search_query)
+            )
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_query"] = self.request.GET.get("q", "")
+        return context
 
 
 class NoteDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -43,19 +56,13 @@ class NoteCreateView(LoginRequiredMixin, CreateView):
     """Создание новой записи."""
 
     model = Note
+    form_class = NoteForm
     template_name = "app_notes/note_form.html"
-    fields = ("title", "content")
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
+        messages.success(self.request, "Запись успешно создана.")
         return super().form_valid(form)
-
-    def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        # Сообщение добавляем только после успешного создания
-        if self.object:
-            messages.success(request, "Запись успешно создана.")
-        return response
 
     def get_success_url(self):
         return reverse_lazy("app_notes:note_list")
@@ -65,18 +72,16 @@ class NoteUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """Редактирование записи."""
 
     model = Note
+    form_class = NoteForm
     template_name = "app_notes/note_form.html"
-    fields = ("title", "content")
 
     def test_func(self):
         note = self.get_object()
         return note.owner == self.request.user
 
-    def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        if hasattr(self, "object") and self.object:
-            messages.success(request, "Запись успешно обновлена.")
-        return response
+    def form_valid(self, form):
+        messages.success(self.request, "Запись успешно обновлена.")
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy("app_notes:note_detail", kwargs={"pk": self.object.pk})
@@ -93,32 +98,9 @@ class NoteDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         note = self.get_object()
         return note.owner == self.request.user
 
-    def post(self, request, *args, **kwargs):
-        messages.success(request, "Запись успешно удалена.")
-        return super().post(request, *args, **kwargs)
+    def form_valid(self, form):
+        messages.success(self.request, "Запись успешно удалена.")
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy("app_notes:note_list")
-
-
-class NoteSearchView(LoginRequiredMixin, ListView):
-    """Поиск по личным записям пользователя."""
-
-    model = Note
-    template_name = "app_notes/search_results.html"
-    context_object_name = "notes"
-
-    def get_queryset(self):
-        query = self.request.GET.get("q", "").strip()
-
-        queryset = Note.objects.filter(owner=self.request.user)
-
-        if query:
-            queryset = queryset.filter(Q(title__icontains=query) | Q(content__icontains=query))
-
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["query"] = self.request.GET.get("q", "").strip()
-        return context

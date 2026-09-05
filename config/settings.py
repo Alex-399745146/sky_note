@@ -14,6 +14,9 @@ DEBUG = True
 ALLOWED_HOSTS: list[str] = []  # type: ignore[assignment]
 
 
+INTERNAL_IPS = ["127.0.0.1", "localhost"]
+
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -45,6 +48,7 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
+                "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
@@ -67,6 +71,8 @@ DATABASES = {
     }
 }
 
+
+AUTH_USER_MODEL = "app_users.User"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
