@@ -8,11 +8,33 @@ authors = [
 requires-python = ">=3.13,<3.14"
 dependencies = [
     "django (>=5.2,<5.3)",
-    "psycopg[binary] (>=3.3.4,<4.0.0)",
+    "psycopg[binary] (>=3.3.5,<4.0.0)",
     "python-dotenv (>=1.2.3,<2.0.0)"
 ]
 
+# Poetry используется только для управления виртуальным окружением и зависимостями.
+[tool.poetry]
+package-mode = false
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "flake8 (>=7.3.0,<8.0.0)",
+    "mypy (>=2.3.1,<3.0.0)",
+    "black (>=26.5.1,<27.0.0)",
+    "isort (>=9.0.1,<10.0.0)",
+    "flake8-quotes (>=3.4.0,<4.0.0)",
+    "autopep8 (>=2.3.2,<3.0.0)"
+]
+
+[tool.black]
+line-length = 119
+target-version = ["py313"]
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+line_length = 119

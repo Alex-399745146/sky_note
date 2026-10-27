@@ -10,6 +10,7 @@ env/
 
 # Environment variables and secrets
 .env
+/.docker.env
 
 # Django
 db.sqlite3
@@ -23,3 +24,7 @@ media/
 # Operating system
 .DS_Store
 Thumbs.db
+
+# My help files
+/app_notes/inf_urls
+/app_users/inf_urls

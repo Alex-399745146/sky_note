@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if form.instance.pk %}Редактирование заметки{% else %}Новая заметка{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-11 col-sm-9 col-md-8 col-lg-7 col-xl-6">
+            <h1 class="mb-4 text-center">
+                {% if form.instance.pk %}Редактирование заметки{% else %}Новая заметка{% endif %}
+            </h1>
+
+            <form method="post" class="card shadow-sm">
+                <div class="card-body p-4 p-md-5">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form.non_field_errors }}
+                    </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        {{ form.title.label_tag }}
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.title.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.content.label_tag }}
+                        {{ form.content }}
+                        {% if form.content.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.content.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card-footer bg-transparent border-top-0 p-4 p-md-5 pt-0">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <a href="{% url 'app_notes:note_list' %}" class="btn btn-outline-secondary">
+                            Отмена
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            {% if form.instance.pk %}Сохранить{% else %}Создать{% endif %}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
